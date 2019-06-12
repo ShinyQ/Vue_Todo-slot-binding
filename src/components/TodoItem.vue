@@ -1,11 +1,10 @@
 <template>
-    <div id="item">
-        <input :checked="todo.status" type="checkbox" @click="$emit('checkTodo')">
-        <span :class="{ checked: todo.status }">
-            {{numberList}}. {{todo.name}}
-        </span>
-        <button :disabled="todo.status" @click="$emit('editTodo')">Edit Todo</button>
-        <button @click="$emit('removeTodo')">Hapus Todo</button>
+   
+    <div style="margin-top:10px;">        
+        <input :checked="todo.status" type="checkbox" @click="$emit('checkTodo',todo.id)">
+        <slot name="item"></slot>
+        <button :disabled="todo.status" @click="$emit('editTodo',[todo.id, todo.name])">Edit Todo</button>&nbsp;
+        <button @click="$emit('removeTodo',index)">Hapus Todo</button>        
     </div>
 </template>
 
@@ -16,10 +15,10 @@ export default {
         todo: Object,
         index: Number,        
     },
-    computed: {
-        numberList:function(){
-            return this.index+1
-        }
-    },
 }
 </script>
+<style>
+.checked{
+  text-decoration: line-through; 
+}
+</style>

@@ -2,8 +2,8 @@
     <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
     <h1>Todo App</h1>
-      <input v-model="inputValue" placeholder="Masukkan Todo Anda">
-      <button @click="addTodo()">+ Tambahkan</button><br>
+      <input v-model="inputValue" placeholder="Tambahkan Todo Disini">
+      <button @click="addTodo()">Add</button><br><br>
       {{warning}}<br>
 
       <hr>
@@ -11,11 +11,11 @@
             v-on:checkTodo="checkTodo($event)" v-on:removeTodo="removeTodo($event)" 
             v-on:editTodo="editTodo($event)">        
             <span slot="item" :class="{ checked: item.status }">{{index+1}}. {{item.name}} </span>
-      </TodoItem><br>
+      </TodoItem><br>      
       <button @click="saveStorage()">Simpan Ke Storage</button>
-      <hr> 
+      <hr>
 
-      <TodoStatus :checkedStatus="this.checkedStatus()" :uncheckedStatus="this.uncheckedStatus()"></TodoStatus><br>
+      <TodoStatus :checkedStatus="this.checkedStatus()" :uncheckedStatus="this.uncheckedStatus()"></TodoStatus>
       <TodoEdit v-if="edit" :editValue="this.editValue" v-on:ubahTodo="ubahTodo($event)" v-on:cancelEdit="cancelEdit($event)"></TodoEdit>
     </div>
 </template>
@@ -81,7 +81,7 @@ export default {
     },
     saveStorage:function(){
       localStorage.setItem('todos',JSON.stringify(this.todos));
-      alert('Sukses Menambahkan Data');
+      alert('Berhasil Menyimpan Data');
     },
     checkLocalStorage:function(){
       if (localStorage.getItem('todos')) this.todos = JSON.parse(localStorage.getItem('todos'));
@@ -97,7 +97,15 @@ export default {
   },
   created(){
     this.checkLocalStorage();
-  },    
+  },
+  watch: {
+    inputValue:function(newValue, oldValue){
+      this.warning="";
+      if(this.inputValue.length > 10){
+        this.warning="Maksimal 10 Karakter";
+      }
+    }
+  },   
 }
 </script>
 
